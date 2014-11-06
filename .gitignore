@@ -1,0 +1,10 @@
+.DS_Store
+log/**/*
+tmp/**/*
+.sass-cache/*
+db/*.db
+.*.sw*
+.bundle
+vendor
+platform.pem
+
