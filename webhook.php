@@ -1,32 +1,41 @@
 <?php
 
 /*
-（厳密にはpayloadというパラメータに対して下記パラメータ郡をjson形式で送信します。）
-
-パラメータ名    概要
-text    メッセージ（必須）
-username        投稿者（サービス）名
-icon_url        投稿者名のアイコン画像のURL
-icon_emoji      投稿者名のアイコン
-channel 「#」または「@」から始まるChannel名
+[ param ]
+text
+username
+icon_url 
+icon_emoji 
+channel 
 */
 
-function getQiita() {
-        $ret = "";
-        $url = 'https://qiita.com/api/v1/items';
-        $resp = file_get_contents($url);
-        $data = json_decode($resp);
-        foreach($data as $obj) {
-                $ret .= $obj->url . "\n";
-        }
-        return $ret;
+class Qiita {
+
+	public static function getNews() {
+		$ret = '';
+		$url = 'https://qiita.com/api/v1/items';
+		$resp = file_get_contents($url);
+		$data = json_decode($resp);
+		foreach($data as $obj) {
+			$ret .= $obj->url . "\n";
+		}
+
+		return $ret;
+	}
 }
 
-header('Content-Type: application/json');
 
-$ret = getQiita();
+$resp_text = Qiita::getNews();
+// check
+// if (strlen($resp_text) < 1) {
+if (!isset($resp_text{1})) {
+	$resp_text = 'none!';	
+}
+
+// outputする
+header('Content-Type: application/json');
 echo json_encode(array(
-	"text" => $ret
+	"text" => $resp_text,
 ));
 
 
